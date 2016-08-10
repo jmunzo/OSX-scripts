@@ -5,6 +5,11 @@
 # Columbia University Libraries
 # john.munzo@columbia.edu
 
+# Special thanks to the JAMF Nation Community for discovering this workaround
+# Official thread documenting issues and community troubleshooting:
+# https://jamfnation.jamfsoftware.com/discussion.html?id=17437
+
+# NOTES:
 # Script to manually enable/disable updates on ASUS
 # Script must be run as root
 # Server.app cannot be running during this process
@@ -15,11 +20,16 @@
 # Print script information
 echo "";
 echo "***************************************************************************";
-echo "*                     ASUS Manual Update Utility 2.0                      *";
+echo "*                                                                         *";
+echo "*                     ASUS Manual Update Utility 2.1                      *";
 echo "*                            John Munzo - 2016                            *";
 echo "*                                                                         *";
 echo "* This utility will allow you to manually enable/disable updates on ASUS. *";
 echo "*             Server.app cannot be running during this process.           *";
+echo "*                                                                         *";
+echo "*               Special thanks to the JAMF Nation Community               *";
+echo "*    Official thread documenting issues and community troubleshooting:    *";
+echo "*       https://jamfnation.jamfsoftware.com/discussion.html?id=17437      *";
 echo "*                                                                         *";
 echo "***************************************************************************";
 echo "";
@@ -89,13 +99,20 @@ do
 	# If update doesn't exist, we want to skip it
 	# Set skip variable
 	_skip=0
+	_utoggle=""
+	_switch=""
 	_status=`/usr/libexec/PlistBuddy -c 'print workingSetProducts:'$_uuid':enable' /Library/Server/Software\ Update/Status/com.apple.server.swupdate.plist`
+	_uname=`/usr/libexec/PlistBuddy -c 'print workingSetProducts:'$_uuid':localization:English:title' /Library/Server/Software\ Update/Status/com.apple.server.swupdate.plist`
 	if [ $_status == false ]; then
-		echo "Update $_uuid is currently Disabled";
+		echo "$_uname is currently Disabled";
 		_skip=1
+		_utoggle=1
+		_switch="enable"
 	elif [ $_status == true ]; then
-		echo "Update $_uuid is currently Enabled";
+		echo "$_uname is currently Enabled";
 		_skip=1
+		_utoggle=2
+		_switch="disable"
 	else
 		echo "Update $_uuid does not exist...";
 		_skip=0
@@ -104,29 +121,34 @@ do
 
 # If the update exists, proceed
 if [ $_skip == 1 ]; then
-	# Inform the user about Enable/Disable of Update and set default _utoggle variable
-	_utoggle="not selected"
-	echo "Would you like to Enable or Disable this update?";
-	echo "1. Enable";
-	echo "2. Disable";
-	echo "";
+	# Prompt the user to toggle the update
+	echo -n "Would you like to $_switch this update? (Y/N)";
+	read -n1 _utoggle;
 
-	# Prompt for Enable/Disable of Update
-	echo -n "Please enter the number that corresponds with your selection (1 or 2): ";
-	read _utoggle;
+	# Anticipate uppercase/lowercase discrepancy
+	case $_utoggle in
+		[Nn])
+		_utoggle="N"
+		;;
+	esac
+	case $_utoggle in
+		[Yy])
+		_utoggle="Y"
+		;;
+	esac
 	echo "";
 
 	# Process Enable/Disable of Update based upon user input
-	if [ $_utoggle == 1 ]; then
-		echo "Setting Update $_uuid to Enabled Status...";
+	if [ $_status == false ] && [ $_utoggle == "Y" ]; then
+		echo "Setting $_uname to Enabled Status...";
 		/usr/libexec/PlistBuddy -c 'set workingSetProducts:'$_uuid':enable YES' /Library/Server/Software\ Update/Status/com.apple.server.swupdate.plist
-		echo "Update $_uuid has been Enabled.";
-	elif [ $_utoggle == 2 ]; then
-		echo "Setting Update $_uuid to Disabled Status...";
+		echo "$_uname has been Enabled.";
+	elif [ $_status == true ] && [ $_utoggle == "Y" ]; then
+		echo "Setting $_uname to Disabled Status...";
 		/usr/libexec/PlistBuddy -c 'set workingSetProducts:'$_uuid':enable NO' /Library/Server/Software\ Update/Status/com.apple.server.swupdate.plist
-		echo "Update $_uuid has been Disabled.";
+		echo "$_uname has been Disabled.";
 	else
-		echo "Invalid selection.  No changes made...";
+		echo "No changes made...";
 	fi
 	echo "";
 
@@ -138,6 +160,8 @@ fi
 	echo -n "Would you like to modify another update? (Y/N)";
 	read -n1 _another;
 	echo "";
+
+	# Anticipate uppercase/lowercase discrepancy
 	case $_another in
 		[Nn])
 		_repeat="N"
@@ -170,4 +194,4 @@ echo "";
 exit 0;
 
 # TO-DO:
-# Nothing :)
+# Optimize, optimize, optimize...
