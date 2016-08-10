@@ -14,7 +14,7 @@
 
 # Print script information
 echo "";
-echo "***************************************************************************"
+echo "***************************************************************************";
 echo "*                     ASUS Manual Update Utility 2.0                      *";
 echo "*                            John Munzo - 2016                            *";
 echo "*                                                                         *";
@@ -22,7 +22,7 @@ echo "* This utility will allow you to manually enable/disable updates on ASUS. 
 echo "*             Server.app cannot be running during this process.           *";
 echo "*                                                                         *";
 echo "***************************************************************************";
-echo ""
+echo "";
 echo "";
 
 # Check if root
@@ -30,13 +30,13 @@ if [ "$(whoami)" != "root" ]; then
 	echo "Sorry, you are not running as root.";
 	echo "Please run this application as root.";
 	echo "";
-	echo "Exiting script..."
+	echo "Exiting script...";
 	exit 1
 fi
 
 # If root, begin the script
 echo "Press any key to begin...";
-read -n1 _null;
+read -n1 _null
 
 # Stop Server.app if it is running
 echo "Closing Server.app...";
@@ -47,7 +47,7 @@ echo "";
 # Stop the SWUpdate Service
 echo "Now stopping SWUpdate Services...";
 serveradmin stop swupdate
-echo "SWUpdate Services successfully stopped."
+echo "SWUpdate Services successfully stopped.";
 echo "";
 
 # LOOPBACK BEGINNING
@@ -74,12 +74,12 @@ do
 	echo "These UIDs can appear in the following formats -";
 	echo "031-62987";
 	echo "zzzz031-62987";
-	echo "11G56_ServerAdminTools"
+	echo "11G56_ServerAdminTools";
 	echo "";
 
 	# Prompt for Software Update UID
 	echo "Please input the update UID exactly as it appears within the ASUS GUI: ";
-	read _uuid;
+	read _uuid
 	echo "";
 
 	# Check the UID
@@ -97,7 +97,7 @@ do
 		echo "Update $_uuid is currently Enabled";
 		_skip=1
 	else
-		echo "Update $_uuid does not exist..."
+		echo "Update $_uuid does not exist...";
 		_skip=0
 	fi
 	echo "";
@@ -126,7 +126,7 @@ if [ $_skip == 1 ]; then
 		/usr/libexec/PlistBuddy -c 'set workingSetProducts:'$_uuid':enable NO' /Library/Server/Software\ Update/Status/com.apple.server.swupdate.plist
 		echo "Update $_uuid has been Disabled.";
 	else
-		echo "$_utoggle is an invalid selection.  No changes made...";
+		echo "Invalid selection.  No changes made...";
 	fi
 	echo "";
 
@@ -165,7 +165,7 @@ echo "";
 # Restart the SWUpdate Service
 echo "Now starting SWUpdate Services...";
 serveradmin start swupdate
-echo "SWUpdate Services successfully started."
+echo "SWUpdate Services successfully started.";
 echo "";
 exit 0;
 
