@@ -174,9 +174,9 @@ echo "";
 
 # Delete the cached catalog files
 echo "Deleting cached catalog files...";
-rm -Rf /Library/Server/Software\ Update/html/*.sucatalog
-rm -Rf /Library/Server/Software\ Update/html/*.alternate
-rm -Rf /Library/Server/Software\ Update/html/content/catalogs
+rm -Rf /Library/Server/Software\ Update/Data/html/*.sucatalog
+rm -Rf /Library/Server/Software\ Update/Data/html/*.alternate
+rm -Rf /Library/Server/Software\ Update/Data/html/content/catalogs
 echo "Cached catalogs deleted.";
 echo "";
 
