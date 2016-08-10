@@ -21,7 +21,7 @@
 echo "";
 echo "***************************************************************************";
 echo "*                                                                         *";
-echo "*                     ASUS Manual Update Utility 2.1                      *";
+echo "*                     ASUS Manual Update Utility 2.2                      *";
 echo "*                            John Munzo - 2016                            *";
 echo "*                                                                         *";
 echo "* This utility will allow you to manually enable/disable updates on ASUS. *";
@@ -72,23 +72,21 @@ do
 	# Set default _uuid variable
 	_uuid="not selected"
 	echo "";
-	echo "The currently targeted update is $_uuid";
-	echo "";
 
-	# Inform the user about Software Update UIDs
-	echo "Apple Software Updates are each given a Unique Identifier (UID).";
-	echo "These UIDs can be determined by highlighting the update";
-	echo "within the ASUS GUI, and selecting View Update,";
+	# Inform the user about Software Product IDs
+	echo "Apple Software Updates are each given a Product ID.";
+	echo "These Product IDs can be determined by highlighting the update";
+	echo "within the Server GUI, and selecting View Update,";
 	echo "or by double-clicking the update.";
 	echo "";
-	echo "These UIDs can appear in the following formats -";
+	echo "Example Product IDs:";
 	echo "031-62987";
 	echo "zzzz031-62987";
 	echo "11G56_ServerAdminTools";
 	echo "";
 
 	# Prompt for Software Update UID
-	echo "Please input the update UID exactly as it appears within the ASUS GUI: ";
+	echo "Please input the Product ID exactly as it appears within the Server GUI: ";
 	read _uuid
 	echo "";
 
@@ -96,8 +94,7 @@ do
 	echo "You have selected Update $_uuid";
 
 	# CHECK STATUS OF UPDATE
-	# If update doesn't exist, we want to skip it
-	# Set skip variable
+	# If the update doesn't exist we want to skip it, so we set a skip variable
 	_skip=0
 	_utoggle=""
 	_switch=""
@@ -161,6 +158,7 @@ fi
 	read -n1 _another;
 	echo "";
 
+	# If user fails to enter 'n' or 'N', the script will loop
 	# Anticipate uppercase/lowercase discrepancy
 	case $_another in
 		[Nn])
@@ -177,11 +175,17 @@ echo "Deleting cached catalog files...";
 rm -Rf /Library/Server/Software\ Update/Data/html/*.sucatalog
 rm -Rf /Library/Server/Software\ Update/Data/html/*.alternate
 rm -Rf /Library/Server/Software\ Update/Data/html/content/catalogs
+
+# Certain Server installations have reportedly different file structures
+# This accounts for both the presence and absence of a /Data/ folder
+rm -Rf /Library/Server/Software\ Update/html/*.sucatalog
+rm -Rf /Library/Server/Software\ Update/html/*.alternate
+rm -Rf /Library/Server/Software\ Update/html/content/catalogs
 echo "Cached catalogs deleted.";
 echo "";
 
 # Resync the catalogs
-echo "Beginning synchronization of catalogs.  This can take a few minutes...";
+echo "Beginning synchronization of catalogs.  This can take several minutes...";
 swupd_syncd -sync
 echo "Synchronization completed.";
 echo "";
@@ -194,4 +198,7 @@ echo "";
 exit 0;
 
 # TO-DO:
+# Check if /Data/ folder exists and change target as necessary,
+# rather than dropping a nuke on all potential /html/ locations...
+#
 # Optimize, optimize, optimize...
