@@ -46,7 +46,7 @@ fi
 
 # If root, begin the script
 echo "This script will shutdown Server.app if it is running,";
-echo "as well as stop the SWUpdate service."
+echo "as well as stop the SWUpdate service.";
 echo "";
 echo "Press any key to begin...";
 read -n1 _null
@@ -196,9 +196,9 @@ echo "";
 
 # Prompt before deletion of files and restart of SWUpdate services
 echo "This script will now delete the following files and folders:";
-echo "/Library/Server/Software\ Update/Data/html/*.sucatalog";
-echo "/Library/Server/Software\ Update/Data/html/*.alternate";
-echo "/Library/Server/Software\ Update/Data/html/content/catalogs";
+echo "/Library/Server/Software Update/Data/html/*.sucatalog";
+echo "/Library/Server/Software Update/Data/html/*.alternate";
+echo "/Library/Server/Software Update/Data/html/content/catalogs";
 echo "";
 echo "Catalogs will be re-synced following deletion, and SWUpdate services";
 echo "will be restarted upon completion.";
