@@ -17,5 +17,6 @@ The script works by manually setting specific updates (via Product ID) to enable
 Tested successfully on OSX 10.11.3 running Server 5.0.15, and OSX 10.11.6 running Server 5.1.7.
 
 Special thanks to the JAMF Nation Community, who thoroughly documented, tested and discovered the workaround for this bug.
-The official thread, with the manual solution can be found here:
+
+The official thread, along with the manual solution, can be found here:
 https://jamfnation.jamfsoftware.com/discussion.html?id=17437
