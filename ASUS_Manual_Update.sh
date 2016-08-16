@@ -1,9 +1,8 @@
 #!/bin/bash
 
 # ASUS Manual Update Utility
-# John Munzo - 2016
+# J. Munzo - 2016
 # Columbia University Libraries
-# john.munzo@columbia.edu
 
 # Special thanks to the JAMF Nation Community for discovering this workaround
 # Official thread documenting issues and community troubleshooting:
@@ -22,7 +21,7 @@ echo "";
 echo "***************************************************************************";
 echo "*                                                                         *";
 echo "*                     ASUS Manual Update Utility 2.3                      *";
-echo "*                            John Munzo - 2016                            *";
+echo "*                             J. Munzo - 2016                             *";
 echo "*                                                                         *";
 echo "* This utility will allow you to manually enable/disable updates on ASUS. *";
 echo "*             Server.app cannot be running during this process.           *";
