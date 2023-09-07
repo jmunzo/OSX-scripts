@@ -117,9 +117,9 @@ chmod -R a+rx /usr/local/bin/firewall.sh
     <key>LaunchOnlyOnce</key>
         <true/>
     <key>StandardOutPath</key>
-        <string>/Users/lito/pfctl_log.log</string>
+        <string>/Library/Logs/pfctl_log.log</string>
     <key>StandardErrorPath</key>
-        <string>/Users/lito/pfctl_error.log</string>
+        <string>/Library/Logs/pfctl_error.log</string>
 </dict>
 </plist>
 EOF
